@@ -18,7 +18,7 @@
 
 ## DLL 下载与使用
 
-**下载位置**：[Release 页面](https://github.com/ryankaros/TrafficMonitorPlugins-main-withUsAndGold/releases/tag/Stock_V1.14-custom) 或直接下载仓库内的 [release-assets/Stock_x64.zip](https://github.com/ryankaros/TrafficMonitorPlugins-main-withUsAndGold/raw/main/release-assets/Stock_x64.zip)（x64 Release 编译版，解压得到 `Stock.dll`，无需自行编译）。
+**下载位置**：[Release 页面](https://github.com/ryankaros/TrafficMonitorPlugins-main-withUsAndGold/releases/tag/Stock_V1.14-custom) 的 **Assets** 中下载 `Stock_x64.zip`（x64 Release 编译版，解压得到 `Stock.dll`，无需自行编译）。
 
 **使用步骤**：
 
