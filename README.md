@@ -1,40 +1,34 @@
-# TrafficMonitorPlugins
-这是用于[TrafficMonitor](https://github.com/zhongyang219/TrafficMonitor)的插件。
+# TrafficMonitorPlugins (fork with US indices & SGE gold support)
 
-## 插件下载
+基于 [zhongyang219/TrafficMonitorPlugins](https://github.com/zhongyang219/TrafficMonitorPlugins) **main 分支最新提交**修改的 Stock 插件定制版。
 
-请点击以下链接转到插件下载页面：
+> Upstream: https://github.com/zhongyang219/TrafficMonitorPlugins (main branch)
 
-[TrafficMonitor 插件下载](./download/plugin_download.md)
+## 修改内容（仅涉及 Stock 插件）
 
-## 插件使用说明
+新浪行情接口 `hq.sinajs.cn` 各数据源格式不统一，原版 Stock 插件（v1.13 发布版 / main 分支）不支持以下品种，本仓库补充了相应解析：
 
-根据TrafficMonitor的版本（x86为32位，x64为64位）选择对应版本的插件，下载后解压可得到dll文件，下载后将插件dll放到TrafficMonitor程序所在目录下的`plugins`目录下：
+| 改动 | 说明 |
+|---|---|
+| 新增 `int_`（全球指数）解析 | 如 `int_nasdaq`（纳斯达克综合）、`int_dji`、`int_sp500` |
+| 新增 `gds_`（金交所贵金属）解析 | 如 `gds_AU9999`（沪金99.99，支付宝黄金基金标的）。实测格式与 `hf_` 类似：最新价/最高/最低/昨收/开盘在前，名称在最后一列 |
+| 美股字段数阈值 36→30 | 新浪 `gb_` 系列各代码字段数不统一（`gb_ndx` 36 字段，`gb_inx` 仅 30 字段），原版阈值导致 `gb_inx` 被丢弃 |
+| 修复添加对话框 "Other" 选项 | 原版选中 Other 后保存时未保留用户输入的完整代码（如 `gds_AU9999`），导致自定义前缀丢失 |
+| `TransparentWnd.cpp` 中文注释改英文 | 修复 UTF-8 无 BOM 中文注释在 GBK 代码页下的编译错误（C1075） |
 
-![image-20221013203124953](images/image-20221013203124953.png)
+## 使用
 
-重新启动TrafficMonitor后可以在“选项”——“常规设置”——“插件管理”中看到所有的插件：
+1. 编译（需 VS2019/2022 + MFC）：
+   ```
+   msbuild TrafficMonitorPlugins.sln /t:Stock /p:Configuration=Release /p:Platform=x64
+   ```
+   产物：`bin\x64\Release\Stock.dll`
+2. 退出 TrafficMonitor，用新 DLL 替换其 `Plugins` 目录下的 `Stock.dll`，重启；
+3. 添加监控项（示例）：
+   - 沪深：类型选 Shangzheng/Shenzheng，代码 `000001` / `399006`
+   - 美股：类型选 Meigu，代码 `ndx`（纳指100）、`inx`（标普500）
+   - 黄金/全球指数：类型选 **Other**，输入完整代码 `gds_AU9999`、`int_nasdaq`
 
-![image-20221013203353499](images/image-20221013203353499.png)
+## 许可
 
-要使插件项目显示到任务栏中，请在任务栏窗口上点击鼠标右键，选择“显示设置”。
-
-![image-20221013203527593](images/image-20221013203527593.png)
-
-![image-20221013203621714](images/image-20221013203621714.png)
-
-此时，“显示设置”中会显示已加载的插件项目，勾选你希望显示在任务栏上的项目，点击确定即可。
-
-关于更多插件使用的详细说明，请参考以下链接：
-
-[插件功能 · zhongyang219/TrafficMonitor Wiki (github.com)](https://github.com/zhongyang219/TrafficMonitor/wiki/插件功能)
-
-## 如何开发插件
-
-关于如何开发TrafficMonitor，请参考以下链接：
-
-[插件开发指南 · zhongyang219/TrafficMonitor Wiki (github.com)](https://github.com/zhongyang219/TrafficMonitor/wiki/插件开发指南)
-
-## 插件的提交
-
-你可以向我发送电子邮件来提交你开发的插件，并附上插件简介和下载地址。也可以直接向此仓库提交pull request来更新插件下载页面：[plugin_download.md](download/plugin_download.md) 和 [plugin_download_en.md](download/plugin_download_en.md)，按照文档原来的格式添加插件介绍和下载链接。同时更新一下[plugins_version.xml](plugins_version.xml)文件，这个文件用于在TrafficMonitor的“插件管理”界面显示插件是否有更新，在`plugins_version.xml`中添加你插件的文件名和最新的版本号，当插件有更新时也要更新一下这个文件里的版本号。
+沿用上游 [MIT License](LICENSE)。
