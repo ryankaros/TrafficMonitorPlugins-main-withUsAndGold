@@ -1,0 +1,7 @@
+# Commit message for TrafficMonitorPlugins fork
+Stock plugin: add int_ global indices and gds_ SGE gold parsing
+
+- Add kINT/kGDS types and LoadINT/LoadGDS parsers in StockDef
+- Lower _DATA_LEN_MG from 36 to 30 (gb_inx returns 30 fields)
+- Fix Other option to keep full user-typed code prefix (e.g. gds_AU9999)
+- Translate Chinese comments in TransparentWnd.cpp to fix GBK build errors

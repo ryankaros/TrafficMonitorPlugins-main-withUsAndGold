@@ -1,0 +1,28 @@
+﻿#include "pch.h"
+#include "CommonData.h"
+#include <sstream>
+
+
+std::wstring WeatherInfo::WeatherInfo::ToString() const
+{
+    std::wstringstream wss;
+    wss << m_type << L' ';
+    wss << ToStringTemperature();
+    wss << L' ' << m_wind;
+    return wss.str();
+}
+
+std::wstring WeatherInfo::WeatherInfo::ToStringTemperature() const
+{
+    std::wstringstream wss;
+    if (m_low.empty() || is_cur_weather)
+        wss << m_high;
+    else if (m_high.empty())
+        wss << m_low;
+    else
+        wss << m_low << '~' << m_high;
+    std::wstring str_temp = wss.str();
+    if (str_temp.size() < 1 || str_temp.back() != L'℃')
+        str_temp.push_back(L'℃');
+    return str_temp;
+}
